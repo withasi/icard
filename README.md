@@ -1,4 +1,4 @@
 icard
 =====
 
-The mobile Internet card control front page libary
+The mobile Internet card control front page library
