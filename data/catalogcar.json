@@ -1,0 +1,92 @@
+{
+    "name":"易车网",//应用名称
+    "version":"1.0.1",//应用版本号
+    "icon":"data/asset/default_icon.png",//图标
+    "logo":"data/asset/bitauto_logo.jpg",//logo
+    "template":{
+        "cover":"template/wp7/cover.html", 		//封面
+        "catalog":"template/wp7/catalog.html",	//目录
+        "list":"template/wp7/list.html",		//列表
+        "article":"template/wp7/article.html",	//文章
+        "back":"template/wp7/back.html"			//封底
+    },
+    "index":{//应用的目录结构和逻辑结构
+        "length": 8,//卡片的长度
+        "initIndex": 0,//应用进入时的位置的初始位置,同时用于记录返回上一级别的卡片索引,此值会根据操作进行修改
+        "level":"p",//当前的结构级别号，index为固定值p
+        "childType": "list",//子卡片的模板类型
+        "p_0":
+        {
+            "name": "封面",//名称。类似与title
+            "level": "p_0",//结构级别号
+            "template":"template/wp7/cover.html",//页面模板
+            "isDynamic": "false",  //是否是动态封面
+            "convertImgList": ["template/wp7/img/cover/1.jpg","template/wp7/img/cover/2.jpg","template/wp7/img/cover/3.jpg"]//变换封页的图片路径列表。此值在当前页面为封面的时候起作用
+        },
+        "p_1":
+        {
+            "name": "行业新闻",//名称。类似与title
+            "template":"template/wp7/list.html", //页面模板
+            "dataSource":"http://rss.bitauto.com/src/a-0.xml",//注入到动态模板中的数据来源，如果有dataSource则注入到tempalte
+            "level": "p_1",//结构级别号
+            "childType": "article"//子开篇的模板类型
+        },
+        "p_2":
+        {
+            "name": "新车新闻",
+            "template":"template/wp7/list.html",
+            "dataSource":"http://rss.bitauto.com/src/a-1.xml",
+            "level": "p_2",
+            "childType": "article"
+        },
+        "p_3":
+        {
+            "name": "行情新闻",//名称。类似与title
+            "template":"template/wp7/list.html", //页面模板
+            "dataSource":"http://rss.bitauto.com/src/a-2.xml",//注入到动态模板中的数据来源，如果有dataSource则注入到tempalte
+            "level": "p_3",//结构级别号
+            "childType": "article"//子开篇的模板类型
+        },
+        "p_4":
+        {
+            "name": "导购新闻",
+            "template":"template/wp7/list.html",
+            "dataSource":"http://rss.bitauto.com/src/a-3.xml",
+            "level": "p_4",
+            "childType": "article"
+        },
+        "p_5":
+        {
+            "name": "试驾新闻",//名称。类似与title
+            "template":"template/wp7/list.html", //页面模板
+            "dataSource":"http://rss.bitauto.com/src/a-4.xml",//注入到动态模板中的数据来源，如果有dataSource则注入到tempalte
+            "level": "p_5",//结构级别号
+            "childType": "article"//子开篇的模板类型
+        },
+        "p_6":
+        {
+            "name": "维修养护新闻",
+            "template":"template/wp7/list.html",
+            "dataSource":"http://rss.bitauto.com/src/a-5.xml",
+            "level": "p_6",
+            "childType": "article"
+        },
+        "p_7":
+        {
+            "name": "汽车生活新闻",//名称。类似与title
+            "template":"template/wp7/list.html", //页面模板
+            "dataSource":"http://rss.bitauto.com/src/a-6.xml",//注入到动态模板中的数据来源，如果有dataSource则注入到tempalte
+            "level": "p_7",//结构级别号
+            "childType": "article"//子开篇的模板类型
+        }/*,
+        "p_8":
+        {
+            "name": "视频新闻",
+            "template":"template/wp7/list.html",
+            "dataSource":"http://rss.bitauto.com/src/a-7.xml",
+            "level": "p_8",
+            "childType": "article"
+        }*/
+
+    }
+}

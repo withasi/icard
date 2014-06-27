@@ -1,0 +1,181 @@
+body {
+	margin: 0;
+	padding: 0;
+    font-family:Arial, Helvetica, sans-serif,"黑体";
+}
+::-webkit-scrollbar{
+    width:0;
+    height:0;
+}
+
+/**************************************icard的视角内容样式 start**************************************/
+.phoneview{/*屏幕层，高宽和屏幕大小一致，高度为客户区+地址栏的高度。*/
+    -webkit-user-select:none;/*内容不可选择*/
+    -webkit-text-size-adjust:none;/*字体不自动调整*/
+    /*	-webkit-touch-callout:none;*/
+    -webkit-tap-highlight-color:rgba(0,0,0,0);/*去除点击后的区域颜色*/
+    background-color:rgb(225, 227, 229);
+    position: absolute;
+    height: 100%;
+    /*position: relative;*/
+    /*background-color:#CCCC66;*/
+    overflow:hidden;
+    padding:0;
+}
+
+@media screen and (min-width: 640px){
+    .phoneview{/*屏幕层，高宽和屏幕大小一致，高度为客户区+地址栏的高度。*/
+        -webkit-user-select:none;/*内容不可选择*/
+        -webkit-text-size-adjust:none;/*字体不自动调整*/
+        -webkit-touch-callout:none;
+        -webkit-tap-highlight-color:rgba(0,0,0,0);/*去除点击后的区域颜色*/
+        background-color:rgb(225, 227, 229);
+        position: absolute;
+        height: 100%;
+        /*position: relative;*/
+
+        left:50%;
+        margin-left:-320px;
+
+        /*background-color:#CCCC66;*/
+        overflow:hidden;
+        padding:0;
+    }
+}
+.phoneview > #retryPage {
+    position: absolute;
+    width:90%;
+    height:90%;
+    margin:5%;
+    background-color: Rgb(100,100,100);
+    visibility:hidden;
+    z-index: 1;
+}
+/**************************************icard的视角内容样式 end**************************************/
+
+/**************************************事件层样式 start**************************************/
+#touchevent{/*事件触发层，接管所有子内容的事件响应，在所有层之上*/
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:10;
+}
+#touchevent > .waitingel{/*waiting时显示区样式*/
+    visibility:hidden;
+    text-align:center;
+    font-size: 18px;
+    color: #aaa;
+}
+#touchevent > .toucheventLT,	#touchevent > .toucheventLB,	#touchevent > .toucheventRT,	#touchevent > .toucheventRB{
+	position:absolute;
+	/*border:5px solid #fff;*/
+	width:40px;
+	height:40px;
+	border:0 none;
+    background-size: 70% 70%;
+	/*border:1px solid #000;*/
+	/*-webkit-transform-origin:0 0;-webkit-transform:rotate(45deg);*/
+	/*border-radius: 50px;*/
+	opacity: 0.3;
+
+	-webkit-transition: opacity 300ms;
+}
+#touchevent > .toucheventLTNormal{
+    left:-5px;
+    top:-5px;
+    background: url('images/lt.png') 70% 78% no-repeat transparent ;
+}
+#touchevent > .toucheventLTHighlight{
+    left:-5px;
+    top:-5px;
+    background: url('images/lt.png') 70% 78% no-repeat transparent ;
+    opacity: 0.7;
+}
+#touchevent > .toucheventLBNormal{
+    left:-5px;
+    bottom:-5px;
+    background: url('images/lb.png') 70% 30% no-repeat transparent;
+}
+#touchevent > .toucheventLBHighlight{
+    left:-5px;
+    bottom:-5px;
+    background: url('images/lb.png') 70% 30% no-repeat transparent;
+    /*background-size: 90% 90%;*/
+    opacity: 0.7;
+}
+
+#touchevent > .toucheventRTNormal{
+    right:-5px;
+    top:-5px;
+    background: url('images/rt.png') 23% 78% no-repeat transparent;
+}
+#touchevent > .toucheventRTHighlight{
+    right:-5px;
+    top:-5px;
+    background: url('images/rt.png') 23% 78% no-repeat transparent;
+    opacity: 0.7
+}
+#touchevent > .toucheventRBNormal{
+    right:-5px;
+    bottom:-5px;
+    background: url('images/rb.png') 23% 30% no-repeat transparent;
+}
+#touchevent > .toucheventRBHighlight{
+    right:-5px;
+    bottom:-5px;
+    background: url('images/rb.png') 23% 30% no-repeat transparent;
+    opacity: 0.7
+}
+/**************************************事件层样式 end**************************************/
+
+/**************************************目录样式 start**************************************/
+#catalogIndex{/*目录card，仅仅包含一个card，并且在content之上显示*/
+    position:absolute;
+    top:100%;
+    right:-90%;/*android 设定相对单位，会有跳转问题*/
+    width:100%;
+    height:100%;
+    z-index: 1;
+    visibility:hidden;
+
+    /*以下为切换页面时的css3的transition效果，目前采用的是translate,此方法优于改变left和top*/
+    -webkit-transition-property: -webkit-transform;
+}
+#catalogIndex .wrapper {
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    z-index:1;
+}
+/**************************************目录样式 end**************************************/
+
+/**************************************内容区样式 start**************************************/
+#content{/*内容区，包含若干个卡片页面和之间的分隔*/
+  /*  float:left;
+    width:330%;*//*此处宽度>页面为所有卡片的宽度+卡片之间的间隔宽度*/
+
+    /*以下为左右切换页面时的css3的transition效果,目前采用的是translate,此方法优于改变left*/
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-timing-function: cubic-bezier(0.25,0.1,0,1);
+    /*-webkit-transition-property: left;
+    -webkit-transition-duration: 0;
+    -webkit-transition-timing-function: cubic-bezier(0.33,0.66,0.66,1);*/
+}
+#content > .card{/*card页面*/
+    position: absolute;
+    border: 1px #C8C8C8 solid;
+    border-radius: 1.6mm;
+    /*-webkit-box-shadow: 0.2mm 0.2mm 1.6mm rgba(0,0,0,.16);*/
+}
+#content > .split{/*split页面*/
+    position: absolute;
+}
+#content .wrapper {
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    z-index:1;
+}
+/**************************************内容区样式 end**************************************/

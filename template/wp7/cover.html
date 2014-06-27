@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1.0,user-scalable=no,width=device-width" />
+		<title>封面</title>
+		<style>
+            body{margin:0; font-family:Arial, Helvetica, sans-serif,"黑体"; -webkit-text-size-adjust:none;}
+            #coverBack{
+                height:100%;
+                width: 100%;
+                position: absolute;
+                background-image: url('../../source/assets/images/cover.jpg');
+                background-size:cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                z-index: -1;
+            }
+            .swip{position:absolute; width:40mm;top:60%; background-color:#000; opacity:.55; color:#fff; font-size:5mm; line-height:8mm; right:0mm; padding-left:1mm;}
+            .headline{position:absolute;margin-top:15mm;font-size:18mm;line-height:20mm;  text-align: justify; padding-left: 3mm; text-shadow:1px 1px 5px #333;color:#fff;-webkit-text-stroke: 0.5px #e8e8e8; font-weight:bold; opacity:.85;}
+        </style>
+	</head>
+	<body onload="javascript:document.body.querySelector('#view').style.height = document.body.scrollHeight+'px';">
+        <div id=view>
+            <div id="at" class="headline"></div>
+            <div class="swip">〈 滑动开始阅读</div>
+            <div id=main></div>
+        </div>
+    </body>
+</html>

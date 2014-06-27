@@ -1,0 +1,54 @@
+﻿CACHE MANIFEST
+#文件开头必须要书写 CACHE MANIFEST，然后再页面中写入<html manifest="o.appcache"> ,需要对本地缓存区的内容进行修改的，只需修改o.manifest文件即可
+#这个manifest的版本号
+#version 33
+
+#缓存的资源
+CACHE:
+    #添加页面没有作用，凡是有资源添加到本地存储中，则此页面就包还在离线存储中
+    #w.html
+    #car.html
+    #v.html
+    #index.html
+
+    #以下为调试版本中用到的脚本，由于nginx服务器等如果在manifest中添加404资源，则此缓存失效。
+    #source/es.base.js
+    #source/es.storage.js
+    #source/es.device.js
+    #source/es.proxy.js
+    #source/es.icard.js
+    #source/es.hammer.js
+    #source/es.cardcontrol.js
+    #source/es.pg_android.js
+
+    source/es.result.js
+    source/assets/es.css
+
+    source/assets/images/lb.png
+    source/assets/images/lt.png
+    source/assets/images/pull-icon@2x.png
+    source/assets/images/rb.png
+    source/assets/images/rt.png
+    source/assets/images/cover.jpg
+
+    template/comm/all.min.js
+    template/comm/myTemplate.js
+
+    #iframe永远在离线存储中，只要此页面有manifest文件，即使将如下页面加入到netWork中
+    template/wp7/article.html
+    template/wp7/catalog.html
+    template/wp7/list.html
+    template/wp7/shequ.html
+    template/wp7/cover.html
+    template/wp7/page.html
+
+
+#显示指定不进行本地缓存的资源文件
+NETWORK:
+    *
+
+
+#在线和离线两种情况时，使用的资源
+FALLBACK:
+
+

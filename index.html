@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html manifest="o.manifest">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- UC 的设置-->
+    <meta name="full-screen" content="yes">
+    <meta name="layoutmode" content="standard">
+    <meta name="nightmode" content="disable">
+    <meta name="imagemode" content="force">
+    <meta name="browsermode" content="application">
+    <title></title>
+    <style type='text/css'>
+        #loading{width:100%; z-index:1; position: fixed; background-color:#000;} @media screen and (min-width: 640px){#loading{width:640px; margin-left:-320px; left:50%; z-index:1; background-color:#000; position: fixed;} } .headline{position:absolute;top:0;margin-top:15mm;font-size:18mm;line-height:20mm;height:20mm;overflow:hidden; text-align: justify; padding-left: 3mm; text-shadow:1px 1px 5px #333;color:#fff;-webkit-text-stroke: 0.5px #e8e8e8; font-weight:bold; opacity:.85;} #chart{position:absolute; height:100%; border-radius: 5px 0 0 5px; background-image: -webkit-gradient(linear, left top, left bottom, from(#555), to(#555), color-stop(0.6, #ddd))} #backChart{position:absolute; height:100%; width:100%; border-radius: 5px; background-image: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#ddd), color-stop(0.6, #fff))} #percent{text-shadow:1px 1px 5px #333;color:#fff;-webkit-text-stroke: 0.5px #e8e8e8; font-weight:bold; opacity:.85; margin-top: 10px; font-size:4mm; text-align:center; border-width:medium; border-style:none; background: transparent;} #retryLoad{visibility:hidden;height:40px;font-family:arial;font-size: 16px} #coverBack{height:100%; width: 100%; position: absolute; top:0; background-image: url('source/assets/images/cover.jpg'); background-size:cover; background-repeat: no-repeat; background-position: center; z-index: -1;}
+    </style>
+</head>
+<body leftmargin="0" topmargin="0">
+<table frame="box" bordercolor='#C8C8C8' id=loading cellpadding=0 cellspacing=0>
+    <tr>
+        <td align=center>
+            <div id="coverBack"></div>
+            <div id='appTitle' class='headline'></div>
+            <button id='retryLoad' onclick='javascript:this.style.visibility="visible";location.reload()'>加载失败请重试</button>
+            <div id='percentchart' style='position:relative;width:90%;height:15px;'>
+                <div id='backChart'></div>
+                <div id='chart'></div>
+            </div>
+            <input type=text id=percent readOnly>
+        </td>
+    </tr>
+</table>
+<div id="maindiv" style='position: absolute;width:100%'></div>
+<script type="text/javascript">
+    //**********1)设置目录数据
+    var _catalogData ={
+        "name":"易车网",//应用名称
+        "version":"1.0.1",//应用版本号
+        "icon":"data/asset/default_icon.png",//图标
+        "logo":"data/asset/bitauto_logo.jpg",//logo
+        "template":{
+            "cover":"template/wp7/cover.html", 		//封面
+            "catalog":"template/wp7/catalog.html",	//目录
+            "list":"template/wp7/list.html",		//列表
+            "article":"template/wp7/article.html",	//文章
+            "back":"template/wp7/back.html"			//封底
+        },
+        "index":{//应用的目录结构和逻辑结构
+            "length": 8,//卡片的长度
+            "initIndex": 0,//应用进入时的位置的初始位置,同时用于记录返回上一级别的卡片索引,此值会根据操作进行修改
+            "level":"p",//当前的结构级别号，index为固定值p
+            "childType": "list",//子卡片的模板类型
+            "p_0":
+            {
+                "name": "封面",//名称。类似与title
+                "level": "p_0",//结构级别号
+                "template":"template/wp7/cover.html",//页面模板
+                "isDynamic": "false",  //是否是动态封面
+                "convertImgList": ["template/wp7/img/cover/1.jpg","template/wp7/img/cover/2.jpg","template/wp7/img/cover/3.jpg"]//变换封页的图片路径列表。此值在当前页面为封面的时候起作用
+            },
+            "p_1":
+            {
+                "name": "行业新闻",//名称。类似与title
+                "template":"template/wp7/list.html", //页面模板
+                "dataSource":"http://rss.bitauto.com/src/a-0.xml",//注入到动态模板中的数据来源，如果有dataSource则注入到tempalte
+                "level": "p_1",//结构级别号
+                "childType": "article"//子开篇的模板类型
+            },
+            "p_2":
+            {
+                "name": "新车新闻",
+                "template":"template/wp7/list.html",
+                "dataSource":"http://rss.bitauto.com/src/a-1.xml",
+                "level": "p_2",
+                "childType": "article"
+            },
+            "p_3":
+            {
+                "name": "行情新闻",//名称。类似与title
+                "template":"template/wp7/list.html", //页面模板
+                "dataSource":"http://rss.bitauto.com/src/a-2.xml",//注入到动态模板中的数据来源，如果有dataSource则注入到tempalte
+                "level": "p_3",//结构级别号
+                "childType": "article"//子开篇的模板类型
+            },
+            "p_4":
+            {
+                "name": "导购新闻",
+                "template":"template/wp7/list.html",
+                "dataSource":"http://rss.bitauto.com/src/a-3.xml",
+                "level": "p_4",
+                "childType": "article"
+            },
+            "p_5":
+            {
+                "name": "试驾新闻",//名称。类似与title
+                "template":"template/wp7/list.html", //页面模板
+                "dataSource":"http://rss.bitauto.com/src/a-4.xml",//注入到动态模板中的数据来源，如果有dataSource则注入到tempalte
+                "level": "p_5",//结构级别号
+                "childType": "article"//子开篇的模板类型
+            },
+            "p_6":
+            {
+                "name": "维修养护新闻",
+                "template":"template/wp7/list.html",
+                "dataSource":"http://rss.bitauto.com/src/a-5.xml",
+                "level": "p_6",
+                "childType": "article"
+            },
+            "p_7":
+            {
+                "name": "汽车生活新闻",//名称。类似与title
+                "template":"template/wp7/list.html", //页面模板
+                "dataSource":"http://rss.bitauto.com/src/a-6.xml",//注入到动态模板中的数据来源，如果有dataSource则注入到tempalte
+                "level": "p_7",//结构级别号
+                "childType": "article"//子开篇的模板类型
+            }/*,
+             "p_8":
+             {
+             "name": "视频新闻",
+             "template":"template/wp7/list.html",
+             "dataSource":"http://rss.bitauto.com/src/a-7.xml",
+             "level": "p_8",
+             "childType": "article"
+             }*/
+
+        }
+    };
+
+
+    //**********2)是否增加隐藏浏览器地址栏操作，isIPhone下默认隐藏
+    var _bHiden = false,
+            _loading = document.getElementById('loading'),
+            _mainDiv = document.getElementById('maindiv'),
+            isAndroid = (/android/gi).test(navigator.appVersion);
+    isIPhone = /iphone/gi.test(navigator.appVersion);//iphone设备
+    /*if(isIPhone && _bHiden){
+     _loading.style.height='150%';
+     _loading.style.bottom='-10px';
+     _mainDiv.style.height = '300%';
+     }else{
+     _loading.style.height='100%';
+     _mainDiv.style.height = '100%';
+     }*/
+    _loading.style.height='100%';
+    _mainDiv.style.height = '100%';
+
+    //设置title内容
+    var _appTitle = document.body.querySelector('#appTitle');
+    _appTitle.innerHTML = _catalogData.name;
+
+    //**********3)根据catalog数据设置title和link（ios中safari的左面图标）
+    //请求目录数据，获取logo，并开始进行进度条加载
+    var logoIcon = document.querySelector('#logoicon');
+    //设置添加到桌面图标，ios指定的图标大小为114*114，其中rel内容可用apple-touch-icon替换，此时，图标增加高光效果
+    var lk = document.createElement('link');
+    lk.rel = 'apple-touch-icon-precomposed';
+    lk.href = _catalogData.icon;
+    if(!document.head)document.head = document.getElementsByTagName('head')[0];
+    document.head.appendChild(lk);
+    document.title = _catalogData.name;
+
+
+    //**********4)进度条相关
+    //全局设置
+    var _defaultTim = 30000, //默认时间段，如果在此时段内没有加载完毕，则认为加载失败，可进行重新加载
+            _extraTim = 1000, //如果再默认时间里面完成，则在额外时间段里走完剩余进度条
+            _increment = 3;//百分比增
+
+    var _intVal = _defaultTim/(100/_increment),//更新进度条的时间间隔。
+            _bLoadSuc = false,//用于检测在defaultTim时间里是否加载完毕
+            _bLoadingEnd = false;//用于检测进度条是否进行完毕，区别于上边，此参数在es.cardcontrol.js中也用到
+    /**
+     * 此函数供外部调用，用于加载完毕后更新后续加载时间
+     */
+    var _bar = 0;//当前加载百分比
+    function _updateLoadingIntVal(){_bLoadSuc=true; _intVal=_extraTim/(100-_bar);}
+    /**
+     * 在必要的加载之后开始进行进度条的更新
+     */
+    function _startLoading(){
+        var cht = document.getElementById('chart');
+        var pct = document.getElementById('percent');
+        //如果服务器端资源更新了，则更新离线缓存，并重新reload一边
+        if(applicationCache){
+            applicationCache.addEventListener('updateready',function(){
+                clearTimeout(_loadBarHandler);
+                pct.style.visibility='hidden';
+                document.getElementById('percentchart').innerHTML='服务器端更新，重新加载一次'
+                setTimeout(function(){location.reload();},900);
+                applicationCache.swapCache();
+            });
+        }
+        _count = function(){
+            _bar= _bar+_increment;
+            cht.style.width= _bar+"%" ;
+            pct.value=_bar+"%"
+            if (_bar<99){
+                _loadBarHandler=setTimeout("_count()",_intVal);
+                if(_bLoadSuc && _bar==72){
+                    if(es && es.card && es.card.path && es.card.path.level=='p_0'){
+                        es.cover = document.body.querySelector('#coverBack').cloneNode();
+                        es.title = _appTitle.firstChild.cloneNode();
+                        es.card.frame.contentDocument.body.querySelector('#main').appendChild(es.cover);
+                        es.card.frame.contentDocument.body.querySelector('#at').appendChild(es.title);
+                    }
+                }
+            }
+            else {
+                if(_bLoadSuc){
+                    document.body.removeChild(_loading);
+                    _bLoadingEnd = true;
+                }else{
+                    document.getElementById('retryLoad').style.visibility='visible';
+                    document.getElementById('backChart').style.visibility='hidden';
+                    cht.style.visibility='hidden';
+                    pct.style.visibility='hidden';
+                }
+            }
+        }
+        _count();
+    }
+    window._tim = Date.now();
+    _startLoading();
+</script>
+<link type="text/css" rel="stylesheet" href="source/assets/es.css"/>
+<script type="text/javascript" src="template/comm/all.min.js"></script>
+<script type="text/javascript" src="source/es.result.js"></script>
+<script defer="true" type="text/javascript">
+    try{
+        es.cardBorder = 1,//为像素值，此值需和es.css中的#content > .card所设置的值一致。因为在webkit内核中border的宽度没有算在width之中
+                es.splitWidth = 10,
+                es.cardSwitchTime = 400,//目录切换，进入和返回的时间
+                es.loadDelayTime = 70,//页面加载延时(ms)，android手机中当复杂的css3效果和一个页面请求同时发生时，会导致css3效果丢失，此参数用于解决此问题。最坏的情况下，会导致页面多消耗这么多长时间
+                es.cardDynaCount = 3,//卡片的个数,需大于等于1
+                es.cardStep = Math.floor(es.cardDynaCount/2),//卡片的步长
+                es.isCardCircle = false,
+                es.transTime = 400,//左右切换时间，单位为毫秒;
+                es.proxyType = 1,//代理的类型，0：native代理，1：web代理
+            //es.proxyUrl = "61.155.178.182:8081",//native代理地址
+                //es.proxyUrl = "http://61.155.178.182:8089",//在线代理地址
+                es.proxyUrl = "http://saiwon.com/gate",//在线代理地址
+            //es.proxyUrl = "http://10.10.65.13/gate",//在线代理地址
+                es.fastLinkId = "flink/?url=",//数据代理url标识，用于检测是否采用了代理
+                es.dragThreshold = 3,//可以拖动的阈值
+                es.switchCardFactor = 1.5,//横向拖动的斜率的绝对值，用于判定是否进行横向拖动
+                es.forceNewFrame = true,//同一级别是否可以重复利用淘汰了的frame标签(当为true时，主要保证子iframe对父类的history的影响)
+                es.bRollUnusethreshold = true,//是否设置上下页面滚动的阈值不起作用，即为false时，es.tmThreshold才起作用
+                es.tmThreshold = 3,//上下页面滚动的阈值，单位为px,此值表示的是间隔值，如果小于间隔则忽略操作
+                es.carouselThreshold = 30,//左右切换的阈值，单位为px
+                es.scrollReboundDis = 18,//上下拖动时，单页反动时，反弹的距离
+                es.bEndFactor = true,//当页面到左右头的时候，拖动时是否减速
+                es.bHighlightCtrl = true,//是否在滚动时高亮四角控制按钮
+                es.retryTimes = 1,//重试次数，即如果请求返回的数据为{code:-1}、{code:10001}、{code:10006},则重试
+                es.bDefaultShowPic = false,//默认是否显示图片
+                es.bLeastFrameRequest = false,//是否最小化iframe请求，当为true时，页面中的已经加载过的iframe中内容通过缓存进行注入。
+                es.bPageTpl = false,//是否按照页是排版排列
+                es.backBtnDur = 500;//模拟两次backButton的时间间隔
+
+
+        //初始化工作
+        function loaded() {
+            //隐藏地址栏
+            es.mainDiv = _mainDiv;
+            if(isIPhone && _bHiden){window.scrollTo(0,1);};
+            setTimeout(function(){
+                es.mainDiv.style.height=window.innerHeight+'px';
+
+                //获取应用的大小尺寸，并初始化参数
+                //var r = es.device.getDeviceInfo();
+                //var arr = r.AppScreenSize.split(":")||[];
+                //es.cardWidth = parseInt(arr[0]/window.devicePixelRatio)||document.body.scrollWidth,, es.cardHeight = parseInt(arr[1]/window.devicePixelRatio)||document.body.scrollHeight,//卡片上下和左右切回时间,huaweiU8800，除去最上边工具栏的高度为508,浏览器为452,htc高度为455
+                //es.cardWidth = document.body.scrollWidth, es.cardHeight = document.body.scrollHeight, //卡片上下和左右切回时间,huaweiU8800，除去最上边工具栏的高度为508,浏览器为452,htc高度为455
+                es.cardHeight = window.innerHeight; //卡片上下和左右切回时间,huaweiU8800，除去最上边工具栏的高度为508,浏览器为452,htc高度为455
+
+                //console.log(es.cardHeight+';'+screen.height+';'+screen.availHeight+';'+window.innerHeight);
+                //屏幕适配
+                if(document.body.scrollWidth<640)es.cardWidth = document.body.scrollWidth;
+                else es.cardWidth = 640;
+                es.moveWidth = es.cardWidth + es.splitWidth;
+                //页面内部的内容区的宽高
+                es.cardInnerWidth = es.cardWidth-2*es.cardBorder,
+                        es.cardInnerHeight = es.cardHeight-2*es.cardBorder;
+
+
+                //读取配置文件，来初始化卡片目录结构es.cardRelation,需同步读取
+                //es.setLogicStructure("data/catalogweb.json");
+                //es.setLogicStructure("data/catalogcar.json");
+                es.initLogicStructure(_catalogData);
+
+                //设置手机native事件层的参数
+                //es.device.setTouchEventParams({isUseNativeEventLayer:1,doubleClickTime:0});
+
+                //**********1)初始化页面
+                var phoneview = es.initPageForCard(document.getElementById('maindiv'), es.cardWidth, es.cardHeight);
+
+                //**********2)添加前永增加的事件，必须在touchevent被创建后才能初始化
+                //es_touchevent._ele = es.touchEvtDiv;
+                //gesture.init(es.touchEvtDiv,{tapDelay:0,tapHoldDelay:750,swipDelay:200, minDistanceX:40});
+                //touch事件现用Hammer替换现有es.touchevent.js中的内容
+                var hammer = new Hammer(es.touchEvtDiv, {});
+                var events = ['press','hold','tap','doubletap','transformstart','transform','transformend','dragstart','drag','dragend','swipe','doubleswipe','delayswipe','release'];
+                for(var e=0; e<events.length; e++) {
+                    hammer['on'+ events[e]] = (function(el, eventName) {return function(ev) {es.ce.fireEvent(el, eventName, ev)}})(es.touchEvtDiv, events[e]);
+                }
+
+                //**********3)添加底层iframe点击效果,包括返回和弹出目录接口
+                es.addTap2Card(es.touchEvtDiv);
+
+                //**********4)添加android功能键
+                /*if(es.isAndroid){
+                 document.addEventListener("backbutton", es.backButtonHandler);
+                 document.addEventListener("menubutton", es.menuButtonHandler);
+                 }*/
+
+                //**********5)创建目录card  android中phoneView会将垂直滚动条撑开
+                es.createCatalogCard(phoneview, es.catalogRelation.template.catalog, es.cardWidth, es.cardHeight, es.catalogRelation);
+
+                //**********6)添加左向右滚动效果
+                if(es.isAndroid)es.addSwipe2Card(es.touchEvtDiv,0);
+                else es.addSwipe2Card(es.touchEvtDiv,1);
+                //es.addSwipe2Card(es.touchEvtDiv,0);
+
+                //**********7)创建第一层级的卡片
+                es.createInitCards(es.contentDiv, es.cardInnerWidth, es.cardInnerHeight, es.cardRelation.index, 1);
+
+                //**********8)加载完毕则清除loading内容
+                setTimeout(_updateLoadingIntVal,1000);
+                //_updateLoadingIntVal();
+            },10);
+        }
+        /* * * * * * * *
+         * Use this for high compatibility (iDevice + Android),iDevice不需要setTimeout
+         */
+        document.addEventListener('DOMContentLoaded', function () {setTimeout(function(){loaded()},10)}, false);
+        //var _errTimes = 0;
+        //window.addEventListener("error",function(){if(_errTimes++<2)location.reload()}); //如果加载过程中，出错，则重新加载
+    }catch(e){
+        //location.reload()
+    }
+</script>
+</body>
+</html>

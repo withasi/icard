@@ -1,0 +1,171 @@
+{
+    "name":"TechWeb",//应用名称
+    "version":"1.0.1",//应用版本号
+    "icon":"data/asset/default_icon.png",//图标
+    "logo":"data/asset/tw_logo.gif",//logo
+    "template":{
+        "cover":"template/wp7/cover.html", 		//封面
+        "catalog":"template/wp7/catalog.html",	//目录
+        "list":"template/wp7/list.html",		//列表
+        "article":"template/wp7/article.html",	//文章
+        "back":"template/wp7/back.html"			//封底
+    },
+    "index":{//应用的目录结构和逻辑结构
+        "length": 10,//卡片的长度
+        "initIndex": 0,//应用进入时的位置的初始位置,同时用于记录返回上一级别的卡片索引,此值会根据操作进行修改
+        "level":"p",//当前的结构级别号，index为固定值p
+        "childType": "list",//子卡片的模板类型
+        "p_0":
+        {
+            "name": "封面",//名称。类似与title
+            "level": "p_0",//结构级别号
+            "template":"template/wp7/cover.html",//页面模板
+            "isDynamic": "true",  //是否是动态封面，此值如果不是undefined时，表明卡片为封面
+            "convertImgList": ["template/wp7/img/cover/1.jpg","template/wp7/img/cover/2.jpg","template/wp7/img/cover/3.jpg"]//变换封页的图片路径列表。此值在当前页面为封面的时候起作用
+        },
+        "p_1":
+        {
+            "name": "每日热点推荐",//名称。类似与title
+            "template":"template/wp7/list.html", //页面模板
+            "dataSource":"http://www.techweb.com.cn/rss/hotnews.xml",//注入到动态模板中的数据来源，如果有dataSource则注入到tempalte
+            "level": "p_1",//结构级别号
+            "childType": "article"//子开篇的模板类型
+        },
+        "p_2":
+        {
+            "name": "晨报",
+            "template":"template/wp7/list.html",
+            "dataSource":"http://www.techweb.com.cn/rss/morning.xml",
+            "level": "p_2",
+            "childType": "article"
+        },
+        "p_3":
+        {
+            "name": "晚报",
+            "template":"template/wp7/list.html",
+            "dataSource":"http://www.techweb.com.cn/rss/evening.xml",
+            "level": "p_3",
+            "childType": "article"
+        },
+        "p_4":
+        {
+            "name": "人物",
+            "template":"template/wp7/list.html",
+            "dataSource":"http://www.techweb.com.cn/rss/people.xml",
+            "level": "p_4",
+            "childType": "article"
+        },
+        "p_5":
+        {
+            "name": "要闻",
+            "template":"template/wp7/list.html",
+            "dataSource":"http://www.techweb.com.cn/rss/focus.xml",
+            "level": "p_5",
+            "childType": "article"
+        },
+        "p_6":
+        {
+            "name": "原创",
+            "template":"template/wp7/list.html",
+            "dataSource":"http://www.techweb.com.cn/rss/yuanchuang.xml",
+            "level": "p_6",
+            "childType": "article"
+        },
+        "p_7":
+        {
+            "name": "移动互联",
+            "template":"template/wp7/list.html",
+            "dataSource":"http://www.techweb.com.cn/rss/mi.xml",
+            "level": "p_7",
+            "childType": "article"
+
+        },
+        "p_8":
+        {
+            "name": "电子商务",
+            "template":"template/wp7/list.html",
+            "dataSource":"http://www.techweb.com.cn/rss/ec.xml",
+            "level": "p_8",
+            "childType": "article"
+
+        },
+        "p_9":
+        {
+            "name": "其它板块",
+            "template":"template/wp7/shequ.html",
+            "dataSource":"data/tiezilist.json",
+            "length": 8,
+            "initIndex": 0,
+            "level": "p_9",
+            "childType": "list",
+            "p_9_0":
+            {
+                "name": "外电编译",
+                "template":"template/wp7/list.html",
+                "dataSource":"http://www.techweb.com.cn/rss/world.xml",
+                "level": "p_9_0",
+                "childType": "article"
+            },
+            "p_9_1":
+            {
+                "name": "新酷网站",
+                "template":"template/wp7/list.html",
+                "dataSource":"http://www.techweb.com.cn/rss/newsite.xml",
+                "level": "p_9_1",
+                "childType": "article"
+
+            },
+            "p_9_2":
+            {
+                "name": "网络",
+                "template":"template/wp7/list.html",
+                "dataSource":"http://www.techweb.com.cn/rss/internet.xml",
+                "level": "p_9_2",
+                "childType": "article"
+
+            },
+            "p_9_3":
+            {
+                "name": "业界",
+                "template":"template/wp7/list.html",
+                "dataSource":"http://www.techweb.com.cn/rss/it.xml",
+                "level": "p_9_3",
+                "childType": "article"
+            },
+            "p_9_4":
+            {
+                "name": "经营",
+                "template":"template/wp7/list.html",
+                "dataSource":"http://www.techweb.com.cn/rss/manage.xml",
+                "level": "p_9_4",
+                "childType": "article"
+            },
+            "p_9_5":
+            {
+                "name": "财经",
+                "template":"template/wp7/list.html",
+                "dataSource":"http://www.techweb.com.cn/rss/finance.xml",
+                "level": "p_9_5",
+                "childType": "article"
+
+            },
+            "p_9_6":
+            {
+                "name": "评论",
+                "template":"template/wp7/list.html",
+                "dataSource":"http://www.techweb.com.cn/rss/column.xml",
+                "level": "p_9_6",
+                "childType": "article"
+            },
+            "p_9_7":
+            {
+                "name": "数据",
+                "template":"template/wp7/list.html",
+                "dataSource":"http://www.techweb.com.cn/rss/data.xml",
+                "level": "p_9_7",
+                "childType": "article"
+            }
+        }
+
+    }
+}

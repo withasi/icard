@@ -1,0 +1,77 @@
+{
+	"title" : "板块列表",
+	"type" : "list",
+	"data" : [{
+		"pubDate" : "Thu, 12 Jan 2012 15:33:45 GMT",
+		"title" : "外电编译",
+		"description" : "外电编译",
+		"link" : "http://www.techweb.com.cn/rss/world.xml",
+		"image" : {
+			"content" : "img/list.jpg",
+			"type" : "image"
+		}
+	}, {
+		"pubDate" : "Thu, 12 Jan 2012 15:16:05 GMT",
+		"title" : "新酷网站",
+		"description" : "新酷网站",
+		"link" : "http://www.techweb.com.cn/rss/newsite.xml",
+		"image" : {
+			"content" : "img/list.jpg",
+			"type" : "image"
+		}
+	}, {
+		"pubDate" : "Thu, 12 Jan 2012 15:33:45 GMT",
+		"title" : "网络",
+		"description" : "网络",
+		"link" : "http://www.techweb.com.cn/rss/internet.xml",
+		"image" : {
+			"content" : "img/list.jpg",
+			"type" : "image"
+		}
+	}, {
+		"pubDate" : "Thu, 12 Jan 2012 15:16:05 GMT",
+		"title" : "业界",
+		"description" : "业界",
+		"link" : "http://www.techweb.com.cn/rss/it.xml",
+		"image" : {
+			"content" : "img/list.jpg",
+			"type" : "image"
+		}
+	}, {
+        "pubDate" : "Thu, 12 Jan 2012 15:16:05 GMT",
+        "title" : "经营",
+        "description" : "经营",
+        "link" : "http://www.techweb.com.cn/rss/manage.xml",
+        "image" : {
+            "content" : "img/list.jpg",
+            "type" : "image"
+        }
+    }, {
+        "pubDate" : "Thu, 12 Jan 2012 15:33:45 GMT",
+        "title" : "财经",
+        "description" : "财经",
+        "link" : "http://www.techweb.com.cn/rss/finance.xml",
+        "image" : {
+            "content" : "img/list.jpg",
+            "type" : "image"
+        }
+    }, {
+        "pubDate" : "Thu, 12 Jan 2012 15:16:05 GMT",
+        "title" : "评论",
+        "description" : "评论",
+        "link" : "http://www.techweb.com.cn/rss/column.xml",
+        "image" : {
+            "content" : "img/list.jpg",
+            "type" : "image"
+        }
+    }, {
+        "pubDate" : "Thu, 12 Jan 2012 15:16:05 GMT",
+        "title" : "数据",
+        "description" : "数据",
+        "link" : "http://www.techweb.com.cn/rss/data.xml",
+        "image" : {
+            "content" : "img/list.jpg",
+            "type" : "image"
+        }
+    }]
+}
